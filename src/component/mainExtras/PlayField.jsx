@@ -1,41 +1,54 @@
 class Player{
-constructor(king = false){
+constructor(player = 1,king = false){
+this.player = player;
 this.king = king;
 }
 }
 
-class PlayerOne extends Player{
-constructor(king = false){
-super(king)
-}
-}
 
 
-class PlayerTwo extends Player{
-constructor(king = false){
-super(king)
-}
-}
 
 
 
 
 let emptyEvenLine = [0,1,0,1,0,1,0,1];
-let playerOneEvenLine = [0,new PlayerOne,0,new PlayerOne,0,new PlayerOne,0,new PlayerOne];
-let playerTwoEvenLine = [0,new  PlayerTwo,0,new PlayerTwo,0,new PlayerTwo,0,new PlayerTwo];
+let playerOneEvenLine = [0,new Player,0,new Player,0,new Player,0,new Player];
+let playerTwoEvenLine = [0,new  Player(2),0,new Player(2),0,new Player(2),0,new Player(2)];
 let emptyOddLine = [1,0,1,0,1,0,1,0];
-let playerOneOddLine = [new PlayerOne,0,new PlayerOne,0,new PlayerOne,0,new PlayerOne,0];
-let playerTwoOddLine = [new PlayerTwo,0,new PlayerTwo,0,new PlayerTwo,0,new PlayerTwo,0];
+let playerOneOddLine = [new Player,0,new Player,0,new Player,0,new Player,0];
+let playerTwoOddLine = [new Player(2),0,new Player(2),0,new Player(2),0,new Player(2),0];
 
-window.playField = [[...playerOneEvenLine],[...playerOneOddLine],[...evenLine],[...oddLine],[...evenLine],[...oddLine],[...playerTwoEvenLine],[...playerTwoOddLine]];
+window.playField = [[...playerOneEvenLine],[...playerOneOddLine],[...emptyEvenLine],[...emptyOddLine],[...emptyEvenLine],[...emptyOddLine],[...playerTwoEvenLine],[...playerTwoOddLine]];
+
+function giveDifferentContentDependingOnBox(box){
+	switch(box){
+		case 0:
+			return (<section className="nonPlayableBox"></section>);
+		case 1:
+			return (<section className="playableBox"></section>);
+		default:
+			return (<section className="playableBox"> <img data-player={box.player} className="player"/></section>)
+	}
+
+}
 
 
 export default function PlayField(){
 
-	return  (
+function displayPlayField(){
+let transformedPlayfield = []
+for(let line of window.playField){
+let lineContent = line.map(box => {return giveDifferentContentDependingOnBox(box)});
+transformedPlayfield.push(lineContent);
+}
+return transformedPlayfield;
+}
 
+let boxContent = displayPlayField();
+
+return (
 <article>
-		</article>
-	)
+{boxContent}
+</article>)
 
 }
