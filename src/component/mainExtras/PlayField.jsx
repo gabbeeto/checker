@@ -36,10 +36,12 @@ function giveDifferentContentDependingOnBox(box){
 export default function PlayField(){
 
 function displayPlayField(){
-let transformedPlayfield = []
-for(let line of window.playField){
+let transformedPlayfield = [[],[],[],[],[],[],[],[]];
+window.playField.forEach(transformPlayFieldForHtml);
+
+function transformPlayFieldForHtml(line,index){
 let lineContent = line.map(box => {return giveDifferentContentDependingOnBox(box)});
-transformedPlayfield.push(lineContent);
+transformedPlayfield[index] = <div key={index} data-lineNumber={index}>{lineContent}</div>;
 }
 return transformedPlayfield;
 }
