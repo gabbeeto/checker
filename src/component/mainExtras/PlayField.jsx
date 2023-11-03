@@ -49,7 +49,7 @@ return transformedPlayfield;
 let boxContent = displayPlayField();
 
 return (
-<article>
+<article id="playField">
 {boxContent}
 </article>)
 
