@@ -3,14 +3,14 @@ import 'react-dom'
 import PlayField from './mainExtras/PlayField.jsx'
 
 
-export default function Main(){
+export default function Main() {
 
-return (
-<main>
-<PlayField/>
-
-</main>
-)
+  return (
+    <main>
+      <h1>playfield:</h1>
+      <PlayField />
+    </main>
+  )
 
 
 }

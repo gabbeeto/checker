@@ -23,9 +23,12 @@ border-bottom: 2px solid var(--white);
 }
 
 main{
-  display:grid;
-  gap:2px
+display:grid;
+justify-items:center;
+align-items:center;
+gap:2px
 }
+
 #playField{
 justify-self:center;
 align-self:center;
@@ -34,12 +37,24 @@ grid-template:  repeat(8, 1fr) / 1fr;
 gap: 1px;
 height:30rem;
 width:70%;
+border-radius:20px;
+overflow: hidden;
+}
+
+#playField div[data-linenumber]:nth-of-type(1){
+border-top-right-radius:10px;
+border-top-left-radius:10px;
+}
+
+
+#playField div[data-linenumber]:nth-of-type(8){
+border-bottom-left-radius:10px;
+border-bottom-right-radius:10px;
 }
 
 #playField div[data-linenumber]{
 width:100%;
 height:100%;
-outline:2px solid var(--white);
 display: grid;
 grid-template: 1fr / repeat(8, 1fr);
 }

@@ -5,7 +5,7 @@ import Main from './component/Main.jsx'
 import './styling/main.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render((<>
-	<Header/>
-<Main/>
+  <Header />
+  <Main />
 
-	</>))
+</>))
