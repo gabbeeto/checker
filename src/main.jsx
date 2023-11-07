@@ -4,8 +4,16 @@ import Header from './component/Header.jsx'
 import Main from './component/Main.jsx'
 import './styling/main.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render((<>
+
+export let root = ReactDOM.createRoot(document.getElementById('root'));
+root.render((<>
   <Header />
   <Main />
-
 </>))
+
+export function reRender(){
+ root.render((<>
+  <Header />
+  <Main />
+</>))
+}
