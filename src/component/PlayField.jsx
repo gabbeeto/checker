@@ -8,14 +8,16 @@ class Player {
     this.selected = selected;
   }
 }
+// it's not a boolean because I need it as a string for future comparison
+export function WalkableBox(walkable = 'false'){
+  return walkable;
+}
 
 
-
-
-let emptyEvenLine = [0, 1, 0, 1, 0, 1, 0, 1];
+let emptyEvenLine = [0, WalkableBox(), 0, WalkableBox(), 0, WalkableBox(), 0, WalkableBox()];
 let playerOneEvenLine = [0, new Player, 0, new Player, 0, new Player, 0, new Player];
 let playerTwoEvenLine = [0, new Player(2), 0, new Player(2), 0, new Player(2), 0, new Player(2)];
-let emptyOddLine = [1, 0, 1, 0, 1, 0, 1, 0];
+let emptyOddLine = [ WalkableBox(), 0,WalkableBox(), 0, WalkableBox(), 0,WalkableBox(), 0];
 let playerOneOddLine = [new Player, 0, new Player, 0, new Player, 0, new Player, 0];
 let playerTwoOddLine = [new Player(2), 0, new Player(2), 0, new Player(2), 0, new Player(2), 0];
 
@@ -25,10 +27,11 @@ function giveDifferentHtmlElementsDependingOnContentFromPlayField(box, index, in
   switch (box) {
     case 0:
       return (<section className="nonPlayableBox"></section>);
-    case 1:
-      return (<section className="playableBox"></section>);
+    case 'false':
+    case 'true':
+      return (<section data-walkable={box} className="playableBox"></section>);
     default:
-      return (<section className="playableBox"> <img onClick={() => selectPiece(event,playerOneTurn, changePlayerOneTurn)} data-selected={box.selected} data-player={box.player} data-xindex={index2} data-yindex={index} className="player" /></section>)
+      return (<section className="playableBox"> <img onClick={() => selectPiece(event, playerOneTurn, changePlayerOneTurn)} data-selected={box.selected} data-player={box.player} data-xindex={index2} data-yindex={index} className="player" /></section>)
   }
 }
 

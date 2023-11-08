@@ -78,5 +78,8 @@ height:80%;
 
 img[data-selected='true']{
 background-color: var(--yellow);
+}
+.playableBox[data-walkable='true']{
+background-color: var(--yellow);
 
 }
