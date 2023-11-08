@@ -1,4 +1,4 @@
-import { reRender } from "../../main";
+import { reRender } from "../main";
 
 export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
   try {
@@ -20,7 +20,6 @@ export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
 
     unSelectRemainingPieces()
     window.playField[y][x].selected = true;
-
     reRender()
   }
   catch (error) {
