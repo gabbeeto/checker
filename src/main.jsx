@@ -13,7 +13,6 @@ root.render((<>
 
 export function reRender(){
  root.render((<>
-  <Header />
   <Main />
 </>))
 }

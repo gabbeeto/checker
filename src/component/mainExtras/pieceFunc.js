@@ -1,10 +1,9 @@
 import { reRender } from "../../main";
 
 export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
-  console.log(isPlayerOneTurn);
   try {
+    console.log(isPlayerOneTurn);
     let currentPiece = event.target;
-    console.log(currentPiece)
     if (isPlayerOneTurn && currentPiece.dataset.player == '1') {
       changePlayerOneTurn(false);
     
@@ -25,6 +24,8 @@ export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
     reRender()
   }
   catch (error) {
+    window.stats = `${error}`;
+    reRender();
     console.log(error);
   }
 }
