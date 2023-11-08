@@ -74,5 +74,9 @@ outline:2px solid var(--yellow);
 border-radius: 20px;
 width:80%;
 height:80%;
+}
+
+img[data-selected='true']{
+background-color: var(--yellow);
 
 }
