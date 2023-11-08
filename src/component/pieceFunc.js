@@ -8,26 +8,12 @@ export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
     let x = Number(currentPiece.dataset.xindex);
     let y = Number(currentPiece.dataset.yindex);
     if (isPlayerOneTurn && currentPiece.dataset.player == '1') {
-      // make this a function later on so we can determinate whether something is walkable or not
-      let yOrientation = y;
-      if (isPlayerOneTurn) {
-        yOrientation = y - 1;
-      }
-      else {
-        yOrientation = y + 1;
-      }
-
-      if (x + 1 < 8) {
-        window.playField[yOrientation][x + 1] = WalkableBox('true');
-      }
-      if (x - 1 >= 0) {
-        window.playField[yOrientation][x - 1] = WalkableBox('true');
-      }
-      // you have to turn other walkable boxes into false right here and remember to make player 2 turn after the player clicks on a walkable box
-
+      determinateWetherPlayerCanWalkOverAnotherBox(x, y, isPlayerOneTurn);
     }
+
     else if (!isPlayerOneTurn && currentPiece.dataset.player == '2') {
       // changePlayerOneTurn(true);
+      determinateWetherPlayerCanWalkOverAnotherBox(x, y, isPlayerOneTurn);
     }
     else {
       throw new Error(`it's not player ${currentPiece.dataset.player} turn`)
@@ -45,9 +31,39 @@ export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
   }
 }
 
+function determinateWetherPlayerCanWalkOverAnotherBox(x, y, playerOneTurn) {
+  // make all the walkable boxes false
+  
+  // this doesn't work, fix it
+  for (let index in window.playField) {
+    playField[index] = playField[index].map((box) => {
+      if (box == 'true') {
+        box = 'false';
+      }
+      return box;
+    })
+  }
+
+  let yOrientation = y;
+  if (playerOneTurn) {
+    yOrientation = y - 1;
+  }
+  else {
+    yOrientation = y + 1;
+  }
+  if (x + 1 < 8) {
+    window.playField[yOrientation][x + 1] = WalkableBox('true');
+  }
+  if(x - 1 >= 0) {
+    window.playField[yOrientation][x - 1] = WalkableBox('true');
+  }
+
+}
+
+
 function unSelectRemainingPieces() {
   for (let line of window.playField) {
-    line.map((piece) => {
+    line.forEach((piece) => {
       if (piece.selected) {
         piece.selected = false;
       }
