@@ -92,7 +92,7 @@ function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left = false) {
 export function makeAllTheWalkableBoxesFalse() {
   for (let index in window.playField) {
     playField[index] = playField[index].map((box) => {
-      if (box == 'true') {
+      if (box == 'true' || box == 'trueAndKill') {
         box = 'false';
       }
       return box;

@@ -8,6 +8,7 @@ box-sizing: border-box;
 --black: black;
 --white: white;
 --yellow: #FF9600;
+--green: #00FFD1;
 }
 
 body{
@@ -79,6 +80,11 @@ height:80%;
 img[data-selected='true']{
 background-color: var(--yellow);
 }
-.playableBox[data-walkable='true'], .playableBox[data-walkable='trueAndKill']{
+.playableBox[data-walkable='true'] {
 background-color: var(--yellow);
+}
+.playableBox[data-walkable='trueAndKill']{
+background-color: var(--green);
+
+
 }
