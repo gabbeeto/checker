@@ -32,25 +32,64 @@ export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
 }
 
 function determinateWetherPlayerCanWalkOverAnotherBox(x, y, playerOneTurn) {
- makeAllTheWalkableBoxesFalse()
-
+  makeAllTheWalkableBoxesFalse()
+  // change the orientation where the player moves
   let yOrientation = y;
+  let currentPlayer;
+
   if (playerOneTurn) {
     yOrientation = y - 1;
+    currentPlayer = 1;
   }
   else {
     yOrientation = y + 1;
+    currentPlayer = 2;
   }
+
   if (x + 1 < 8) {
-    window.playField[yOrientation][x + 1] = WalkableBox('true');
+    searchValidBoxesToWalk(x, yOrientation, currentPlayer)
   }
-  if(x - 1 >= 0) {
-    window.playField[yOrientation][x - 1] = WalkableBox('true');
+  if (x - 1 >= 0) {
+    searchValidBoxesToWalk(x, yOrientation, currentPlayer, true)
   }
 
 }
 
-export function makeAllTheWalkableBoxesFalse(){
+function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left = false) {
+  let movement;
+  let movementWhenKilling;
+  if (left == false) {
+    movement = x + 1;
+    movementWhenKilling = x + 2;
+  }
+  else {
+    movement = x - 1;
+    movementWhenKilling = x - 2;
+  }
+
+  switch (window.playField[yOrientation][movement]) {
+    case 'false':
+      window.playField[yOrientation][movement] = WalkableBox('true');
+      break;
+    default:
+      if (window.playField[yOrientation][movement].player == 1) {
+        if (currentPlayer == 2) {
+          if (window.playField[yOrientation + 1][movementWhenKilling] == 'false') {
+            window.playField[yOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
+          }
+        }
+      }
+      else {
+        if (currentPlayer == 1) {
+          if (window.playField[yOrientation - 1][movementWhenKilling] == 'false') {
+            window.playField[yOrientation -1][movementWhenKilling] = WalkableBox('trueAndKill');
+          }
+        }
+      }
+  }
+}
+
+export function makeAllTheWalkableBoxesFalse() {
   for (let index in window.playField) {
     playField[index] = playField[index].map((box) => {
       if (box == 'true') {
