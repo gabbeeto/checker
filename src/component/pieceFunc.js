@@ -32,16 +32,7 @@ export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
 }
 
 function determinateWetherPlayerCanWalkOverAnotherBox(x, y, playerOneTurn) {
-  // make all the walkable boxes false
-  
-  for (let index in window.playField) {
-    playField[index] = playField[index].map((box) => {
-      if (box == 'true') {
-        box = 'false';
-      }
-      return box;
-    })
-  }
+ makeAllTheWalkableBoxesFalse()
 
   let yOrientation = y;
   if (playerOneTurn) {
@@ -59,6 +50,17 @@ function determinateWetherPlayerCanWalkOverAnotherBox(x, y, playerOneTurn) {
 
 }
 
+export function makeAllTheWalkableBoxesFalse(){
+  for (let index in window.playField) {
+    playField[index] = playField[index].map((box) => {
+      if (box == 'true') {
+        box = 'false';
+      }
+      return box;
+    })
+  }
+
+}
 
 function unSelectRemainingPieces() {
   for (let line of window.playField) {

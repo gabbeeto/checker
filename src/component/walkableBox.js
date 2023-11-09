@@ -1,4 +1,5 @@
 import { WalkableBox } from "./PlayField";
+import { makeAllTheWalkableBoxesFalse } from "./pieceFunc";
 
 export function checkifWalkable(event,isPlayerOneTurn,setPlayerOneTurn) {
   let currentBox = event.target;
@@ -10,9 +11,13 @@ export function checkifWalkable(event,isPlayerOneTurn,setPlayerOneTurn) {
     // transfer player one in the walkable box that's been clicked
     window.playField[yFromBox][xFromBox] = window.playField[yFromPlayer][xFromPlayer]
     window.playField[yFromBox][xFromBox].selected = false;
+
+    makeAllTheWalkableBoxesFalse();
+
     // make the previous player position into a walkable box
     window.playField[yFromPlayer][xFromPlayer] = WalkableBox()
-    // change player one turn
+
+    // change player turn
     if(isPlayerOneTurn){
     setPlayerOneTurn(false)
     }
