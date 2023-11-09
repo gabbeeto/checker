@@ -1,3 +1,4 @@
+import { reRender } from "../main";
 import { WalkableBox } from "./PlayField";
 import { makeAllTheWalkableBoxesFalse } from "./pieceFunc";
 
@@ -24,9 +25,46 @@ export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
       setPlayerOneTurn(true)
     }
   }
-  else if (currentBox.dataset.walkable == 'trueAndKill') {
-    alert('this works');
 
+  else if (currentBox.dataset.walkable == 'trueAndKill') {
+    let { x: xFromPlayer, y: yFromPlayer } = window.selectedPiece;
+
+
+    // make the previous player position into a walkable box
+    window.playField[yFromBox][xFromBox] = window.playField[yFromPlayer][xFromPlayer];
+    console.log(window.playField[yFromBox][xFromBox])
+    console.log(window.selectedPiece)
+
+    window.playField[yFromBox][xFromBox].selected = false;
+
+
+    let opositePlayerY;
+    let opositePlayerX;
+    // get the y axis of the piece from the oposite player that we're going to kill
+    if (isPlayerOneTurn) {
+      opositePlayerY = yFromBox + 1
+    }
+    else {
+      opositePlayerY = yFromBox - 1
+    }
+
+    // get the x axis of the piece from the oposite player that we're going to kill
+    if (xFromBox > xFromPlayer) {
+      opositePlayerX = xFromPlayer + 1;
+    }
+    else {
+      opositePlayerX = xFromPlayer - 1;
+    }
+
+    // kill the enemy
+    window.playField[opositePlayerY][opositePlayerX] = WalkableBox()
+
+
+    makeAllTheWalkableBoxesFalse();
+
+    // make the previous player position into a walkable box
+    window.playField[yFromPlayer][xFromPlayer] = WalkableBox()
   }
+  reRender();
 
 }
