@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { selectPiece } from './pieceFunc';
+import { checkifWalkable} from './walkableBox';
 
 class Player {
   constructor(player = 1, king = false, selected = false) {
@@ -29,7 +30,7 @@ function giveDifferentHtmlElementsDependingOnContentFromPlayField(box, index, in
       return (<section className="nonPlayableBox"></section>);
     case 'false':
     case 'true':
-      return (<section data-walkable={box} className="playableBox"></section>);
+      return (<section data-walkable={box} onClick={() => checkifWalkable(event, playerOneTurn,changePlayerOneTurn)} data-xindex={index2} data-yindex={index} className="playableBox"></section>);
     default:
       return (<section className="playableBox"> <img onClick={() => selectPiece(event, playerOneTurn, changePlayerOneTurn)} data-selected={box.selected} data-player={box.player} data-xindex={index2} data-yindex={index} className="player" /></section>)
   }

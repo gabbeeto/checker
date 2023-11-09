@@ -34,7 +34,6 @@ export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
 function determinateWetherPlayerCanWalkOverAnotherBox(x, y, playerOneTurn) {
   // make all the walkable boxes false
   
-  // this doesn't work, fix it
   for (let index in window.playField) {
     playField[index] = playField[index].map((box) => {
       if (box == 'true') {
