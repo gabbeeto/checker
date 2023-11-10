@@ -56,6 +56,7 @@ function determinateWetherPlayerCanWalkOverAnotherBox(x, y, playerOneTurn) {
 }
 
 function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left = false) {
+  alert(yOrientation);
   let movement;
   let movementWhenKilling;
   if (left == false) {
@@ -74,15 +75,19 @@ function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left = false) {
     default:
       if (window.playField[yOrientation][movement].player == 1) {
         if (currentPlayer == 2) {
-          if (window.playField[yOrientation + 1][movementWhenKilling] == 'false') {
-            window.playField[yOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
+          if (yOrientation != 7) {
+            if (window.playField[yOrientation + 1][movementWhenKilling] == 'false') {
+              window.playField[yOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
+            }
           }
         }
       }
       else {
         if (currentPlayer == 1) {
-          if (window.playField[yOrientation - 1][movementWhenKilling] == 'false') {
-            window.playField[yOrientation -1][movementWhenKilling] = WalkableBox('trueAndKill');
+          if (yOrientation != 0) {
+            if (window.playField[yOrientation - 1][movementWhenKilling] == 'false') {
+              window.playField[yOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
+            }
           }
         }
       }

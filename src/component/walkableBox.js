@@ -6,6 +6,8 @@ export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
   let currentBox = event.target;
   let xFromBox = Number(currentBox.dataset.xindex);
   let yFromBox = Number(currentBox.dataset.yindex);
+
+
   if (currentBox.dataset.walkable == 'true') {
     let { x: xFromPlayer, y: yFromPlayer } = window.selectedPiece;
     // transfer player one in the walkable box that's been clicked
@@ -25,6 +27,7 @@ export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
       setPlayerOneTurn(true)
     }
   }
+
 
   else if (currentBox.dataset.walkable == 'trueAndKill') {
     let { x: xFromPlayer, y: yFromPlayer } = window.selectedPiece;
