@@ -8,6 +8,7 @@ box-sizing: border-box;
 --black: black;
 --white: white;
 --yellow: #FF9600;
+--blue: #00BCFF;
 --green: #00FFD1;
 }
 
@@ -71,10 +72,18 @@ display: grid;
 img{
 align-self:center;
 justify-self:center;
-outline:2px solid var(--yellow);
+/* outline:2px solid var(--yellow); */
 border-radius: 20px;
 width:80%;
 height:80%;
+}
+
+img[data-player='1']{
+outline:2px solid var(--yellow);
+}
+
+img[data-player='2']{
+outline:2px solid var(--blue);
 }
 
 img[data-selected='true']{
