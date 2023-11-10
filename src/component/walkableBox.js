@@ -68,6 +68,20 @@ export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
     // make the previous player position into a walkable box
     window.playField[yFromPlayer][xFromPlayer] = WalkableBox()
   }
+
+  for (let piece of window.playField[0]) {
+    if (piece.player == 1) {
+      piece.king = true;
+    }
+  }
+
+  for (let piece of window.playField[7]) {
+    if (piece.player == 2) {
+      piece.king = true;
+    }
+  }
+
+
   reRender();
 
 }

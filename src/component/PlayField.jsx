@@ -33,7 +33,7 @@ function giveDifferentHtmlElementsDependingOnContentFromPlayField(box, index, in
     case 'trueAndKill':
       return (<section data-walkable={box} onClick={() => checkifWalkable(event, playerOneTurn,changePlayerOneTurn)} data-xindex={index2} data-yindex={index} className="playableBox"></section>);
     default:
-      return (<section className="playableBox"> <img onClick={() => selectPiece(event, playerOneTurn, changePlayerOneTurn)} data-selected={box.selected} data-player={box.player} data-xindex={index2} data-yindex={index} className="player" /></section>)
+      return (<section className="playableBox"> <img onClick={() => selectPiece(event, playerOneTurn, changePlayerOneTurn)} data-king={box.king} data-selected={box.selected} data-player={box.player} data-xindex={index2} data-yindex={index} className="player" /></section>)
   }
 }
 

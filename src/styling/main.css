@@ -94,6 +94,14 @@ background-color: var(--yellow);
 }
 .playableBox[data-walkable='trueAndKill']{
 background-color: var(--green);
+}
+
+img[data-king='true']{
+
+background-image: url('./king.png');
+background-position: 50% 50%;
+background-size:90% 90%;
+background-repeat: no-repeat;
 
 
 }
