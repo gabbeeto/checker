@@ -33,10 +33,14 @@ export function selectPiece(event, isPlayerOneTurn, changePlayerOneTurn) {
 
 function determinateWetherPlayerCanWalkOverAnotherBox(x, y, playerOneTurn) {
   makeAllTheWalkableBoxesFalse()
-  // change the orientation where the player moves
   let yOrientation = y;
   let currentPlayer;
-
+  // detect if it's king or not
+  let kingMovement = false;
+  if (window.playField[y][x].king == true) {
+    kingMovement = true;
+  }
+  // change the orientation where the player moves
   if (playerOneTurn) {
     yOrientation = y - 1;
     currentPlayer = 1;
@@ -47,18 +51,28 @@ function determinateWetherPlayerCanWalkOverAnotherBox(x, y, playerOneTurn) {
   }
 
   if (x + 1 < 8) {
-    searchValidBoxesToWalk(x, yOrientation, currentPlayer)
+    searchValidBoxesToWalk(x, yOrientation, currentPlayer, false, kingMovement)
   }
   if (x - 1 >= 0) {
-    searchValidBoxesToWalk(x, yOrientation, currentPlayer, true)
+    searchValidBoxesToWalk(x, yOrientation, currentPlayer, true, kingMovement)
   }
 
 }
 
-function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left = false) {
-  alert(yOrientation);
+function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left, kingMovement) {
   let movement;
   let movementWhenKilling;
+  let movement2;
+  let movementWhenKilling2;
+
+  let action = false;
+  if (yOrientation >= 0 && currentPlayer == 1) {
+    action = true;
+  }
+  else if (yOrientation <= 7 && currentPlayer == 2) {
+    action = true;
+  }
+
   if (left == false) {
     movement = x + 1;
     movementWhenKilling = x + 2;
@@ -68,29 +82,61 @@ function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left = false) {
     movementWhenKilling = x - 2;
   }
 
-  switch (window.playField[yOrientation][movement]) {
-    case 'false':
-      window.playField[yOrientation][movement] = WalkableBox('true');
-      break;
-    default:
-      if (window.playField[yOrientation][movement].player == 1) {
-        if (currentPlayer == 2) {
-          if (yOrientation != 7) {
-            if (window.playField[yOrientation + 1][movementWhenKilling] == 'false') {
-              window.playField[yOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
+  if (action) {
+    switch (window.playField[yOrientation][movement]) {
+      case 'false':
+        window.playField[yOrientation][movement] = WalkableBox('true');
+        break;
+      default:
+        if (window.playField[yOrientation][movement].player == 1) {
+          if (currentPlayer == 2 && yOrientation != 7 && window.playField[yOrientation + 1][movementWhenKilling] == 'false') {
+            window.playField[yOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
+          }
+        }
+        else {
+          if (currentPlayer == 1 && yOrientation != 0 && window.playField[yOrientation - 1][movementWhenKilling] == 'false') {
+            window.playField[yOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
+          }
+        }
+    }
+  }
+  // add these aditional walkable box if there's a king
+  if (kingMovement) {
+    console.log('kingMovement activated');
+    // check the player to add a new yOrientation 
+    let newyOrientation;
+    if (currentPlayer == 2) {
+      newyOrientation = yOrientation - 2;
+    }
+    else {
+      // + 2 instead of +1 because we already decreased the y Orientation in the past
+      newyOrientation = yOrientation + 2;
+    }
+
+    switch (window.playField[newyOrientation][movement]) {
+      case 'false':
+        window.playField[newyOrientation][movement] = WalkableBox('true');
+        break;
+      default:
+        if (window.playField[newyOrientation][movement].player == 1) {
+          if (currentPlayer == 2) {
+            if (yOrientation != 7) {
+              if (window.playField[newyOrientation - 1][movementWhenKilling] == 'false') {
+                window.playField[newyOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
+              }
             }
           }
         }
-      }
-      else {
-        if (currentPlayer == 1) {
-          if (yOrientation != 0) {
-            if (window.playField[yOrientation - 1][movementWhenKilling] == 'false') {
-              window.playField[yOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
+        else {
+          if (currentPlayer == 1) {
+            if (yOrientation != 0) {
+              if (window.playField[newyOrientation + 1][movementWhenKilling] == 'false') {
+                window.playField[newyOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
+              }
             }
           }
         }
-      }
+    }
   }
 }
 
