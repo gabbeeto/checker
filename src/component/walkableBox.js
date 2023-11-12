@@ -2,6 +2,9 @@ import { reRender } from "../main";
 import { WalkableBox } from "./PlayField";
 import { makeAllTheWalkableBoxesFalse } from "./pieceFunc";
 
+// TODO-LIST: FIX KING DUPLICATION
+
+
 export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
   let currentBox = event.target;
   let xFromBox = Number(currentBox.dataset.xindex);
@@ -10,8 +13,8 @@ export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
 
   if (currentBox.dataset.walkable == 'true') {
     let { x: xFromPlayer, y: yFromPlayer } = window.selectedPiece;
-    // transfer player one in the walkable box that's been clicked
     window.playField[yFromBox][xFromBox] = window.playField[yFromPlayer][xFromPlayer]
+    // transfer player one in the walkable box that's been clicked
     window.playField[yFromBox][xFromBox].selected = false;
 
     makeAllTheWalkableBoxesFalse();
@@ -35,20 +38,17 @@ export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
 
     // make the previous player position into a walkable box
     window.playField[yFromBox][xFromBox] = window.playField[yFromPlayer][xFromPlayer];
-    console.log(window.playField[yFromBox][xFromBox])
-    console.log(window.selectedPiece)
 
     window.playField[yFromBox][xFromBox].selected = false;
-
 
     let opositePlayerY;
     let opositePlayerX;
     // get the y axis of the piece from the oposite player that we're going to kill
-    if (isPlayerOneTurn) {
-      opositePlayerY = yFromBox + 1
+    if (yFromBox < yFromPlayer) {
+      opositePlayerY = yFromBox + 1;
     }
-    else {
-      opositePlayerY = yFromBox - 1
+    else if (xFromBox > xFromPlayer) {
+      opositePlayerY = yFromBox - 1;
     }
 
     // get the x axis of the piece from the oposite player that we're going to kill
