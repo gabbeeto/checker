@@ -107,9 +107,9 @@ function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left, kingMoveme
           // yOrientation can be lower than 0(mimimum size of the PlayField)
           let isYOrientationPossible = yOrientation != 0;
 
-          // movement when killing
           // currentPlayer has to be the oposite as the moving area player
           if (currentPlayer == 1 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
+          // movement when killing the enemy by turning them into a walkable box
             window.playField[yOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
           }
         }
@@ -118,7 +118,7 @@ function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left, kingMoveme
   // add these aditional walkable box if there's a king
   if (kingMovement) {
     console.log('kingMovement activated');
-    // check the player to add a new yOrientation 
+    // check the player to add a new yOrientation but inverted
     let newyOrientation;
     if (currentPlayer == 2) {
       newyOrientation = yOrientation - 2;
@@ -129,26 +129,29 @@ function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left, kingMoveme
     }
 
     switch (window.playField[newyOrientation][movement]) {
+
       case 'false':
         window.playField[newyOrientation][movement] = WalkableBox('true');
         break;
       default:
-        if (window.playField[newyOrientation][movement].player == 1) {
-          if (currentPlayer == 2) {
-            if (yOrientation != 7) {
-              if (window.playField[newyOrientation - 1][movementWhenKilling] == 'false') {
-                window.playField[newyOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
-              }
-            }
+        let movingAreaIsPlayer1 = window.playField[newyOrientation][movement].player == 1;
+        if (movingAreaIsPlayer1) {
+
+          let isYOrientationPossible = yOrientation != 7;
+          let isTheSecondMovingAreaAWalkableBox = window.playField[newyOrientation - 1][movementWhenKilling] == 'false';
+          if (currentPlayer == 2 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
+            window.playField[newyOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
           }
         }
+
+          // movingAreaIsPLayer2
         else {
-          if (currentPlayer == 1) {
-            if (yOrientation != 0) {
-              if (window.playField[newyOrientation + 1][movementWhenKilling] == 'false') {
-                window.playField[newyOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
-              }
-            }
+          
+          // yOrientation can be lower than 0(mimimum size of the PlayField)
+          let isYOrientationPossible = yOrientation != 0;
+          let isTheSecondMovingAreaAWalkableBox = window.playField[newyOrientation + 1][movementWhenKilling] == 'false';
+          if (currentPlayer == 1 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
+            window.playField[newyOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
           }
         }
     }
