@@ -81,82 +81,69 @@ function searchValidBoxesToWalk(x, yOrientation, currentPlayer, left, kingMoveme
   }
 
   if (action) {
-    switch (window.playField[yOrientation][movement]) {
-      case 'false':
-        window.playField[yOrientation][movement] = WalkableBox('true');
-        break;
-      default:
-        let movingAreaIsPlayer1 = window.playField[yOrientation][movement].player == 1;
-        if (movingAreaIsPlayer1) {
-          let isTheSecondMovingAreaAWalkableBox = window.playField[yOrientation + 1][movementWhenKilling] == 'false';
 
-          // yOrientation can be higehr than 7(maximum size of the PlayField)
-          let isYOrientationPossible = yOrientation != 7;
-
-          // movement when killing
-          // currentPlayer has to be the oposite as the moving area player
-          if (currentPlayer == 2 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
-            window.playField[yOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
-          }
-        }
-        else {
-          // movingAreaIsPlayer2
-          let isTheSecondMovingAreaAWalkableBox = window.playField[yOrientation - 1][movementWhenKilling] == 'false';
-
-
-          // yOrientation can be lower than 0(mimimum size of the PlayField)
-          let isYOrientationPossible = yOrientation != 0;
-
-          // currentPlayer has to be the oposite as the moving area player
-          if (currentPlayer == 1 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
-          // movement when killing the enemy by turning them into a walkable box
-            window.playField[yOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
-          }
-        }
-    }
+    checkConditionsToMakeEnemyAWalkableBoxAndMovePlayer(currentPlayer, movement, movementWhenKilling, yOrientation)
   }
   // add these aditional walkable box if there's a king
   if (kingMovement) {
-    console.log('kingMovement activated');
-    // check the player to add a new yOrientation but inverted
-    let newyOrientation;
+    // same conditions but reversed order
+    checkConditionsToMakeEnemyAWalkableBoxAndMovePlayer(currentPlayer, movement, movementWhenKilling, yOrientation,true)
+  }
+}
+
+function checkConditionsToMakeEnemyAWalkableBoxAndMovePlayer(currentPlayer, movement, movementWhenKilling, yOrientation, reverseOrder = false) {
+  let newyOrientation;
+  let followingNewYOrientation;
+  if (reverseOrder) {
     if (currentPlayer == 2) {
       newyOrientation = yOrientation - 2;
+      followingNewYOrientation = newyOrientation - 1;
     }
     else {
       // + 2 instead of +1 because we already decreased the y Orientation in the past
       newyOrientation = yOrientation + 2;
-    }
-
-    switch (window.playField[newyOrientation][movement]) {
-
-      case 'false':
-        window.playField[newyOrientation][movement] = WalkableBox('true');
-        break;
-      default:
-        let movingAreaIsPlayer1 = window.playField[newyOrientation][movement].player == 1;
-        if (movingAreaIsPlayer1) {
-
-          let isYOrientationPossible = yOrientation != 7;
-          let isTheSecondMovingAreaAWalkableBox = window.playField[newyOrientation - 1][movementWhenKilling] == 'false';
-          if (currentPlayer == 2 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
-            window.playField[newyOrientation - 1][movementWhenKilling] = WalkableBox('trueAndKill');
-          }
-        }
-
-          // movingAreaIsPLayer2
-        else {
-          
-          // yOrientation can be lower than 0(mimimum size of the PlayField)
-          let isYOrientationPossible = yOrientation != 0;
-          let isTheSecondMovingAreaAWalkableBox = window.playField[newyOrientation + 1][movementWhenKilling] == 'false';
-          if (currentPlayer == 1 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
-            window.playField[newyOrientation + 1][movementWhenKilling] = WalkableBox('trueAndKill');
-          }
-        }
+      followingNewYOrientation = newyOrientation + 1;
     }
   }
+  else {
+    newyOrientation = yOrientation;
+    if (currentPlayer == 2) {
+      followingNewYOrientation = newyOrientation + 1;
+    }
+    else {
+      followingNewYOrientation = newyOrientation - 1;
+    }
+  }
+
+  switch (window.playField[newyOrientation][movement]) {
+
+    case 'false':
+      window.playField[newyOrientation][movement] = WalkableBox('true');
+      break;
+    default:
+      let movingAreaIsPlayer1 = window.playField[newyOrientation][movement].player == 1;
+      if (movingAreaIsPlayer1) {
+
+        let isYOrientationPossible = yOrientation != 7;
+        let isTheSecondMovingAreaAWalkableBox = window.playField[followingNewYOrientation][movementWhenKilling] == 'false';
+        if (currentPlayer == 2 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
+          window.playField[followingNewYOrientation][movementWhenKilling] = WalkableBox('trueAndKill');
+        }
+      }
+
+      // movingAreaIsPLayer2
+      else {
+        // yOrientation can be lower than 0(mimimum size of the PlayField)
+        let isYOrientationPossible = yOrientation != 0;
+        let isTheSecondMovingAreaAWalkableBox = window.playField[followingNewYOrientation][movementWhenKilling] == 'false';
+        if (currentPlayer == 1 && isYOrientationPossible && isTheSecondMovingAreaAWalkableBox) {
+          window.playField[followingNewYOrientation][movementWhenKilling] = WalkableBox('trueAndKill');
+        }
+      }
+  }
 }
+
+
 
 export function makeAllTheWalkableBoxesFalse() {
   for (let index in window.playField) {
