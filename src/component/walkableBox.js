@@ -2,7 +2,6 @@ import { reRender } from "../main";
 import { WalkableBox } from "./PlayField";
 import { makeAllTheWalkableBoxesFalse } from "./pieceFunc";
 
-// TODO-LIST: FIX KING DUPLICATION
 
 
 export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
@@ -47,7 +46,7 @@ export function checkifWalkable(event, isPlayerOneTurn, setPlayerOneTurn) {
     if (yFromBox < yFromPlayer) {
       opositePlayerY = yFromBox + 1;
     }
-    else if (xFromBox > xFromPlayer) {
+    else {
       opositePlayerY = yFromBox - 1;
     }
 
